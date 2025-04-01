@@ -1,4 +1,4 @@
-# Elm + Webpack example
+# Sui Object Viewer
 
 ## Requirements
 - [npm CLI](https://docs.npmjs.com/)

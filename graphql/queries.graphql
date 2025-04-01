@@ -1,0 +1,20 @@
+query fetchOwnedObjects($address: SuiAddress!, $count: Int!, $cursor: String) {
+  address(address: $address) {
+    objects(first: $count, after: $cursor) {
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+      nodes {
+        address
+        contents {
+          type {
+            repr
+            abilities
+            signature
+          }
+        }
+      }
+    }
+  }
+}
