@@ -1,0 +1,1206 @@
+# This file is generated automatically when `elm-gql` is run.
+    #
+    # This captures all parts of the schema that were not used by any of your graphQL queries or mutations.
+
+    
+
+query {
+    availableRange
+    chainIdentifier
+    checkpoint
+    checkpoints
+    coinMetadata
+    coins
+    dryRunTransactionBlock
+    epoch
+    epochs
+    events
+    latestPackage
+    multiGetObjects
+    object
+    objects
+    owner
+    package
+    packageByName
+    packageVersions
+    packages
+    protocolConfig
+    resolveSuinsAddress
+    serviceConfig
+    transactionBlock
+    transactionBlocks
+    type
+    typeByName
+    verifyZkloginSignature
+}
+
+
+mutation {
+    executeTransactionBlock
+}
+
+
+enum {
+    AddressTransactionBlockRelationship
+    DomainFormat
+    ExecutionStatus
+    Feature
+    MoveVisibility
+    ObjectKind
+    StakeStatus
+    TransactionBlockKindInput
+    ZkLoginIntentScope
+    __DirectiveLocation
+    __TypeKind
+}
+
+
+type ActiveJwk {
+    alg
+    e
+    epoch
+    iss
+    kid
+    kty
+    n
+}
+
+type ActiveJwkConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type ActiveJwkEdge {
+    cursor
+    node
+}
+
+type Address {
+    address
+    balance
+    balances
+    coins
+    defaultSuinsName
+    stakedSuis
+    suinsRegistrations
+    transactionBlocks
+}
+
+type AddressConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type AddressEdge {
+    cursor
+    node
+}
+
+type AddressOwner {
+    owner
+}
+
+type AuthenticatorStateCreateTransaction {
+    _
+}
+
+type AuthenticatorStateExpireTransaction {
+    authenticatorObjInitialSharedVersion
+    minEpoch
+}
+
+type AuthenticatorStateUpdateTransaction {
+    authenticatorObjInitialSharedVersion
+    epoch
+    newActiveJwks
+    round
+}
+
+type AvailableRange {
+    first
+    last
+}
+
+type Balance {
+    coinObjectCount
+    coinType
+    totalBalance
+}
+
+type BalanceChange {
+    amount
+    coinType
+    owner
+}
+
+type BalanceChangeConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type BalanceChangeEdge {
+    cursor
+    node
+}
+
+type BalanceConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type BalanceEdge {
+    cursor
+    node
+}
+
+type BridgeCommitteeInitTransaction {
+    bridgeObjInitialSharedVersion
+}
+
+type BridgeStateCreateTransaction {
+    chainId
+}
+
+type ChangeEpochTransaction {
+    computationCharge
+    epoch
+    nonRefundableStorageFee
+    protocolVersion
+    startTimestamp
+    storageCharge
+    storageRebate
+    systemPackages
+}
+
+type Checkpoint {
+    bcs
+    digest
+    epoch
+    networkTotalTransactions
+    previousCheckpointDigest
+    rollingGasSummary
+    sequenceNumber
+    timestamp
+    transactionBlocks
+    validatorSignatures
+}
+
+type CheckpointConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type CheckpointEdge {
+    cursor
+    node
+}
+
+type Coin {
+    address
+    balance
+    balances
+    bcs
+    coinBalance
+    coins
+    contents
+    defaultSuinsName
+    digest
+    display
+    dynamicField
+    dynamicFields
+    dynamicObjectField
+    hasPublicTransfer
+    objects
+    owner
+    previousTransactionBlock
+    receivedTransactionBlocks
+    stakedSuis
+    status
+    storageRebate
+    suinsRegistrations
+    version
+}
+
+type CoinConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type CoinDenyListStateCreateTransaction {
+    _
+}
+
+type CoinEdge {
+    cursor
+    node
+}
+
+type CoinMetadata {
+    address
+    balance
+    balances
+    bcs
+    coins
+    contents
+    decimals
+    defaultSuinsName
+    description
+    digest
+    display
+    dynamicField
+    dynamicFields
+    dynamicObjectField
+    hasPublicTransfer
+    iconUrl
+    name
+    objects
+    owner
+    previousTransactionBlock
+    receivedTransactionBlocks
+    stakedSuis
+    status
+    storageRebate
+    suinsRegistrations
+    supply
+    symbol
+    version
+}
+
+type ConsensusCommitPrologueTransaction {
+    commitTimestamp
+    consensusCommitDigest
+    epoch
+    round
+}
+
+type ConsensusV2 {
+    authenticator
+    startVersion
+}
+
+type DependencyConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type DependencyEdge {
+    cursor
+    node
+}
+
+type DisplayEntry {
+    error
+    key
+    value
+}
+
+type DryRunEffect {
+    mutatedReferences
+    returnValues
+}
+
+type DryRunMutation {
+    bcs
+    input
+    type
+}
+
+type DryRunResult {
+    error
+    results
+    transaction
+}
+
+type DryRunReturn {
+    bcs
+    type
+}
+
+type DynamicField {
+    name
+    value
+}
+
+type DynamicFieldConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type DynamicFieldEdge {
+    cursor
+    node
+}
+
+type EndOfEpochTransaction {
+    transactions
+}
+
+type EndOfEpochTransactionKindConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type EndOfEpochTransactionKindEdge {
+    cursor
+    node
+}
+
+type Epoch {
+    checkpoints
+    endTimestamp
+    epochId
+    fundInflow
+    fundOutflow
+    fundSize
+    liveObjectSetDigest
+    netInflow
+    protocolConfigs
+    referenceGasPrice
+    safeMode
+    startTimestamp
+    storageFund
+    systemParameters
+    systemStakeSubsidy
+    systemStateVersion
+    totalCheckpoints
+    totalGasFees
+    totalStakeRewards
+    totalStakeSubsidies
+    totalTransactions
+    transactionBlocks
+    validatorSet
+}
+
+type EpochConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type EpochEdge {
+    cursor
+    node
+}
+
+type Event {
+    bcs
+    contents
+    sender
+    sendingModule
+    timestamp
+    transactionBlock
+}
+
+type EventConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type EventEdge {
+    cursor
+    node
+}
+
+type ExecutionResult {
+    effects
+    errors
+}
+
+type GasCoin {
+    _
+}
+
+type GasCostSummary {
+    computationCost
+    nonRefundableStorageFee
+    storageCost
+    storageRebate
+}
+
+type GasEffects {
+    gasObject
+    gasSummary
+}
+
+type GasInput {
+    gasBudget
+    gasPayment
+    gasPrice
+    gasSponsor
+}
+
+type GenesisTransaction {
+    objects
+}
+
+type Immutable {
+    _
+}
+
+type Input {
+    ix
+}
+
+type Linkage {
+    originalId
+    upgradedId
+    version
+}
+
+type MakeMoveVecTransaction {
+    elements
+    type
+}
+
+type MergeCoinsTransaction {
+    coin
+    coins
+}
+
+type MoveCallTransaction {
+    arguments
+    function
+    functionName
+    module
+    package
+    typeArguments
+}
+
+type MoveDatatype {
+    abilities
+    asMoveEnum
+    asMoveStruct
+    module
+    name
+    typeParameters
+}
+
+type MoveDatatypeConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type MoveDatatypeEdge {
+    cursor
+    node
+}
+
+type MoveEnum {
+    abilities
+    module
+    name
+    typeParameters
+    variants
+}
+
+type MoveEnumConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type MoveEnumEdge {
+    cursor
+    node
+}
+
+type MoveEnumVariant {
+    fields
+    name
+}
+
+type MoveField {
+    name
+    type
+}
+
+type MoveFunction {
+    isEntry
+    module
+    name
+    parameters
+    return
+    typeParameters
+    visibility
+}
+
+type MoveFunctionConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type MoveFunctionEdge {
+    cursor
+    node
+}
+
+type MoveFunctionTypeParameter {
+    constraints
+}
+
+type MoveModule {
+    bytes
+    datatype
+    datatypes
+    disassembly
+    enum
+    enums
+    fileFormatVersion
+    friends
+    function
+    functions
+    name
+    package
+    struct
+    structs
+}
+
+type MoveModuleConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type MoveModuleEdge {
+    cursor
+    node
+}
+
+type MoveObject {
+    asCoin
+    asCoinMetadata
+    asStakedSui
+    asSuinsRegistration
+    balance
+    balances
+    bcs
+    coins
+    defaultSuinsName
+    digest
+    display
+    dynamicField
+    dynamicFields
+    dynamicObjectField
+    hasPublicTransfer
+    objects
+    owner
+    previousTransactionBlock
+    receivedTransactionBlocks
+    stakedSuis
+    status
+    storageRebate
+    suinsRegistrations
+    version
+}
+
+type MoveObjectConnection {
+    edges
+}
+
+type MoveObjectEdge {
+    cursor
+    node
+}
+
+type MovePackage {
+    address
+    balance
+    balances
+    bcs
+    coins
+    defaultSuinsName
+    digest
+    latestPackage
+    linkage
+    module
+    moduleBcs
+    modules
+    objects
+    owner
+    packageAtVersion
+    packageBcs
+    packageVersions
+    previousTransactionBlock
+    receivedTransactionBlocks
+    stakedSuis
+    status
+    storageRebate
+    suinsRegistrations
+    typeOrigins
+    version
+}
+
+type MovePackageConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type MovePackageEdge {
+    cursor
+    node
+}
+
+type MoveStruct {
+    abilities
+    fields
+    module
+    name
+    typeParameters
+}
+
+type MoveStructConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type MoveStructEdge {
+    cursor
+    node
+}
+
+type MoveStructTypeParameter {
+    constraints
+    isPhantom
+}
+
+type MoveType {
+    layout
+}
+
+type MoveValue {
+    bcs
+    data
+    json
+}
+
+type Object {
+    address
+    asMoveObject
+    asMovePackage
+    balance
+    balances
+    bcs
+    coins
+    defaultSuinsName
+    digest
+    display
+    dynamicField
+    dynamicFields
+    dynamicObjectField
+    objects
+    owner
+    previousTransactionBlock
+    receivedTransactionBlocks
+    stakedSuis
+    status
+    storageRebate
+    suinsRegistrations
+    version
+}
+
+type ObjectChange {
+    address
+    idCreated
+    idDeleted
+    inputState
+    outputState
+}
+
+type ObjectChangeConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type ObjectChangeEdge {
+    cursor
+    node
+}
+
+type ObjectConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type ObjectEdge {
+    cursor
+    node
+}
+
+type OpenMoveType {
+    repr
+    signature
+}
+
+type OwnedOrImmutable {
+    address
+    digest
+    object
+    version
+}
+
+type Owner {
+    address
+    asAddress
+    asObject
+    balance
+    balances
+    coins
+    defaultSuinsName
+    dynamicField
+    dynamicFields
+    dynamicObjectField
+    objects
+    stakedSuis
+    suinsRegistrations
+}
+
+type PageInfo {
+    hasPreviousPage
+    startCursor
+}
+
+type Parent {
+    parent
+}
+
+type ProgrammableTransactionBlock {
+    inputs
+    transactions
+}
+
+type ProgrammableTransactionConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type ProgrammableTransactionEdge {
+    cursor
+    node
+}
+
+type ProtocolConfigAttr {
+    key
+    value
+}
+
+type ProtocolConfigFeatureFlag {
+    key
+    value
+}
+
+type ProtocolConfigs {
+    config
+    configs
+    featureFlag
+    featureFlags
+    protocolVersion
+}
+
+type PublishTransaction {
+    dependencies
+    modules
+}
+
+type Pure {
+    bytes
+}
+
+type RandomnessStateCreateTransaction {
+    _
+}
+
+type RandomnessStateUpdateTransaction {
+    epoch
+    randomBytes
+    randomnessObjInitialSharedVersion
+    randomnessRound
+}
+
+type Receiving {
+    address
+    digest
+    object
+    version
+}
+
+type Result {
+    cmd
+    ix
+}
+
+type SafeMode {
+    enabled
+    gasSummary
+}
+
+type ServiceConfig {
+    defaultPageSize
+    enabledFeatures
+    isEnabled
+    maxDbQueryCost
+    maxMoveValueDepth
+    maxMultiGetObjectsKeys
+    maxOutputNodes
+    maxPageSize
+    maxQueryDepth
+    maxQueryNodes
+    maxQueryPayloadSize
+    maxScanLimit
+    maxTransactionIds
+    maxTransactionPayloadSize
+    maxTypeArgumentDepth
+    maxTypeArgumentWidth
+    maxTypeNodes
+    mutationTimeoutMs
+    requestTimeoutMs
+}
+
+type Shared {
+    initialSharedVersion
+}
+
+type SharedInput {
+    address
+    initialSharedVersion
+    mutable
+}
+
+type SharedObjectCancelled {
+    address
+    version
+}
+
+type SharedObjectDelete {
+    address
+    mutable
+    version
+}
+
+type SharedObjectRead {
+    address
+    digest
+    object
+    version
+}
+
+type SplitCoinsTransaction {
+    amounts
+    coin
+}
+
+type StakeSubsidy {
+    balance
+    currentDistributionAmount
+    decreaseRate
+    distributionCounter
+    periodLength
+}
+
+type StakedSui {
+    activatedEpoch
+    address
+    balance
+    balances
+    bcs
+    coins
+    contents
+    defaultSuinsName
+    digest
+    display
+    dynamicField
+    dynamicFields
+    dynamicObjectField
+    estimatedReward
+    hasPublicTransfer
+    objects
+    owner
+    poolId
+    previousTransactionBlock
+    principal
+    receivedTransactionBlocks
+    requestedEpoch
+    stakeStatus
+    stakedSuis
+    status
+    storageRebate
+    suinsRegistrations
+    version
+}
+
+type StakedSuiConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type StakedSuiEdge {
+    cursor
+    node
+}
+
+type StorageFund {
+    nonRefundableBalance
+    totalObjectStorageRebates
+}
+
+type StoreExecutionTimeObservationsTransaction {
+    _
+}
+
+type SuinsRegistration {
+    address
+    balance
+    balances
+    bcs
+    coins
+    contents
+    defaultSuinsName
+    digest
+    display
+    domain
+    dynamicField
+    dynamicFields
+    dynamicObjectField
+    hasPublicTransfer
+    objects
+    owner
+    previousTransactionBlock
+    receivedTransactionBlocks
+    stakedSuis
+    status
+    storageRebate
+    suinsRegistrations
+    version
+}
+
+type SuinsRegistrationConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type SuinsRegistrationEdge {
+    cursor
+    node
+}
+
+type SystemParameters {
+    durationMs
+    maxValidatorCount
+    minValidatorCount
+    minValidatorJoiningStake
+    stakeSubsidyStartEpoch
+    validatorLowStakeGracePeriod
+    validatorLowStakeThreshold
+    validatorVeryLowStakeThreshold
+}
+
+type TransactionBlock {
+    bcs
+    digest
+    effects
+    expiration
+    gasInput
+    kind
+    sender
+    signatures
+}
+
+type TransactionBlockConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type TransactionBlockEdge {
+    cursor
+    node
+}
+
+type TransactionBlockEffects {
+    balanceChanges
+    bcs
+    checkpoint
+    dependencies
+    epoch
+    errors
+    events
+    gasEffects
+    lamportVersion
+    objectChanges
+    status
+    timestamp
+    transactionBlock
+    unchangedSharedObjects
+}
+
+type TransactionInputConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type TransactionInputEdge {
+    cursor
+    node
+}
+
+type TransferObjectsTransaction {
+    address
+    inputs
+}
+
+type TypeOrigin {
+    definingId
+    module
+    struct
+}
+
+type UnchangedSharedObjectConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type UnchangedSharedObjectEdge {
+    cursor
+    node
+}
+
+type UpgradeTransaction {
+    currentPackage
+    dependencies
+    modules
+    upgradeTicket
+}
+
+type Validator {
+    address
+    apy
+    atRisk
+    commissionRate
+    credentials
+    description
+    exchangeRates
+    exchangeRatesSize
+    exchangeRatesTable
+    gasPrice
+    imageUrl
+    name
+    nextEpochCommissionRate
+    nextEpochCredentials
+    nextEpochGasPrice
+    nextEpochStake
+    operationCap
+    pendingPoolTokenWithdraw
+    pendingStake
+    pendingTotalSuiWithdraw
+    poolTokenBalance
+    projectUrl
+    reportRecords
+    rewardsPool
+    stakingPool
+    stakingPoolActivationEpoch
+    stakingPoolId
+    stakingPoolSuiBalance
+    votingPower
+}
+
+type ValidatorConnection {
+    edges
+    nodes
+    pageInfo
+}
+
+type ValidatorCredentials {
+    netAddress
+    networkPubKey
+    p2PAddress
+    primaryAddress
+    proofOfPossession
+    protocolPubKey
+    workerAddress
+    workerPubKey
+}
+
+type ValidatorEdge {
+    cursor
+    node
+}
+
+type ValidatorSet {
+    activeValidators
+    inactivePoolsId
+    inactivePoolsSize
+    pendingActiveValidatorsId
+    pendingActiveValidatorsSize
+    pendingRemovals
+    stakingPoolMappingsId
+    stakingPoolMappingsSize
+    totalStake
+    validatorCandidatesId
+    validatorCandidatesSize
+}
+
+type ZkLoginVerifyResult {
+    errors
+    success
+}
+
+
+
+interface IMoveDatatype {
+    abilities
+    module
+    name
+    typeParameters
+}
+
+interface IMoveObject {
+    contents
+    display
+    dynamicField
+    dynamicFields
+    dynamicObjectField
+    hasPublicTransfer
+}
+
+interface IObject {
+    bcs
+    digest
+    owner
+    previousTransactionBlock
+    receivedTransactionBlocks
+    status
+    storageRebate
+    version
+}
+
+interface IOwner {
+    address
+    balance
+    balances
+    coins
+    defaultSuinsName
+    objects
+    stakedSuis
+    suinsRegistrations
+}
+
