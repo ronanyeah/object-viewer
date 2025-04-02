@@ -8,4 +8,4 @@ const app: ElmApp = Elm.Main.init({
   flags: {},
 });
 
-app.ports.log.subscribe((txt: string) => alert(txt));
+app.ports.log.subscribe((txt: string) => console.log(txt));

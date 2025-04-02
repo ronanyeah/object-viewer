@@ -8,6 +8,7 @@ import Maybe.Extra exposing (unwrap)
 import Ports
 import Queries.FetchOwnedObjects
 import Result.Extra exposing (unpack)
+import Set
 import Sui
 import Task
 import Types exposing (..)
@@ -16,6 +17,19 @@ import Types exposing (..)
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        TogglePackage playerId ->
+            let
+                xs =
+                    if Set.member playerId model.visiblePackages then
+                        Set.remove playerId model.visiblePackages
+
+                    else
+                        Set.insert playerId model.visiblePackages
+            in
+            ( { model | visiblePackages = xs }
+            , Cmd.none
+            )
+
         AddrSubmit ->
             ( model
             , ping model.addrInput Nothing

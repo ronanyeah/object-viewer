@@ -11,6 +11,7 @@ import Html exposing (Html)
 import Html.Attributes
 import List.Extra
 import Maybe.Extra exposing (unwrap)
+import Set
 import Sui.Enum.MoveAbility as MA
 import Types exposing (..)
 
@@ -60,29 +61,63 @@ view model =
                                             (\( x, xs ) ->
                                                 ( x.typename, x :: xs )
                                             )
+
+                                allObjects =
+                                    groupedObjects
+                                        |> List.map
+                                            (Tuple.second >> List.length)
+                                        |> List.sum
                             in
                             [ text package
                                 |> linkOut
                                     ("https://suivision.xyz/package/" ++ package)
                                     [ Font.underline ]
-                            , groupedObjects
-                                |> List.map
-                                    (\( typename, objects ) ->
-                                        [ (typename
-                                            |> String.replace (package ++ "::") ""
-                                          )
-                                            |> text
-                                            |> el [ Font.size 16 ]
-                                        , objects
-                                            |> List.map viewObj
-                                            |> wrappedRow
-                                                [ spacing 10
-                                                , width <| px 700
-                                                ]
-                                        ]
-                                            |> column [ spacing 5 ]
+                            , [ text
+                                    ("Types: "
+                                        ++ String.fromInt
+                                            (List.length groupedObjects)
                                     )
-                                |> column [ spacing 20 ]
+                              , text
+                                    ("Objects: "
+                                        ++ String.fromInt allObjects
+                                    )
+                              , text "Expand"
+                                    |> btn (Just <| TogglePackage package)
+                                        [ Font.underline
+                                        ]
+                              ]
+                                |> row [ spaceEvenly, width fill ]
+                            , if Set.member package model.visiblePackages then
+                                groupedObjects
+                                    |> List.map
+                                        (\( typename, objects ) ->
+                                            [ formatTypename package typename
+                                                |> text
+                                                |> el [ Font.size 16 ]
+                                            , objects
+                                                |> List.map viewObj
+                                                |> wrappedRow
+                                                    [ spacing 10
+                                                    , width <| px 700
+                                                    ]
+                                            ]
+                                                |> column [ spacing 5 ]
+                                        )
+                                    |> column [ spacing 20 ]
+
+                              else
+                                groupedObjects
+                                    |> List.map
+                                        (\( typename, _ ) ->
+                                            [ formatTypename package typename
+                                                |> text
+                                                |> el [ Font.size 16 ]
+                                            ]
+                                                |> column [ spacing 5 ]
+                                        )
+                                    |> column
+                                        [ spacing 20
+                                        ]
                             ]
                                 |> column
                                     [ spacing 20
@@ -90,6 +125,7 @@ view model =
                                     , padding 20
                                     , Border.rounded 20
                                     , Border.width 1
+                                    , width fill
                                     ]
                         )
                     |> column [ spacing 15, scrollbarY, height (fill |> minimum 0) ]
@@ -198,3 +234,10 @@ btn msg attrs elem =
         { onPress = msg
         , label = elem
         }
+
+
+formatTypename : String -> String -> String
+formatTypename package =
+    String.replace (package ++ "::") ""
+        >> String.replace "<" "<\n"
+        >> String.replace ">" "\n>"
