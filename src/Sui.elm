@@ -281,8 +281,9 @@ moveTypeLayout =
     }
 
 
+-- Changed from "MoveTypeSignature String", which causes an error with recursive types
 type MoveTypeSignature
-    = MoveTypeSignature String
+    = MoveTypeSignature Json.Encode.Value
 
 
 moveTypeSignature : Codec MoveTypeSignature
@@ -291,9 +292,9 @@ moveTypeSignature =
         \val ->
             case val of
                 MoveTypeSignature str ->
-                    Json.Encode.string str
-    , decoder = Json.Decode.map MoveTypeSignature Json.Decode.string
-    , defaultTestingValue = MoveTypeSignature "REPLACE ME!"
+                    str
+    , decoder = Json.Decode.map MoveTypeSignature Json.Decode.value
+    , defaultTestingValue = MoveTypeSignature Json.Encode.null
     }
 
 
