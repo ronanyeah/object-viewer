@@ -21,9 +21,12 @@ update msg model =
         SetView view ->
             ( { model | view = view }, Cmd.none )
 
+        SetNetwork network ->
+            ( { model | network = network }, Cmd.none )
+
         FetchPackage addr ->
             ( model
-            , fetchPackage addr
+            , fetchPackage model.network addr
                 |> Task.attempt (PackageCb addr)
             )
 
@@ -58,7 +61,7 @@ update msg model =
 
         AddrSubmit ->
             ( model
-            , fetchObjects model.addrInput Nothing
+            , fetchObjects model.network model.addrInput Nothing
                 |> Task.attempt (ObjsCb model.addrInput)
             )
 
@@ -124,7 +127,7 @@ update msg model =
                                                 >> .pageInfo
                                                 >> (\page ->
                                                         if page.hasNextPage then
-                                                            fetchObjects addr page.endCursor
+                                                            fetchObjects model.network addr page.endCursor
                                                                 |> Task.attempt (ObjsCb addr)
 
                                                         else
@@ -222,8 +225,8 @@ parseObjs addr =
         |> Result.Extra.combine
 
 
-fetchObjects : String -> Maybe String -> Task.Task GraphQL.Engine.Error Queries.FetchOwnedObjects.Response
-fetchObjects addr cursor =
+fetchObjects : Network -> String -> Maybe String -> Task.Task GraphQL.Engine.Error Queries.FetchOwnedObjects.Response
+fetchObjects network addr cursor =
     Sui.queryTask
         (Queries.FetchOwnedObjects.query
             { address = Sui.SuiAddress addr
@@ -236,19 +239,29 @@ fetchObjects addr cursor =
             }
         )
         { headers = []
-        , url = "https://sui-mainnet.mystenlabs.com/graphql"
+        , url = networkUrl network
         , timeout = Nothing
         }
 
 
-fetchPackage : String -> Task.Task GraphQL.Engine.Error Queries.FetchPackage.Response
-fetchPackage addr =
+fetchPackage : Network -> String -> Task.Task GraphQL.Engine.Error Queries.FetchPackage.Response
+fetchPackage network addr =
     Sui.queryTask
         (Queries.FetchPackage.query
             { address = Sui.SuiAddress addr
             }
         )
         { headers = []
-        , url = "https://sui-testnet.mystenlabs.com/graphql"
+        , url = networkUrl network
         , timeout = Nothing
         }
+
+
+networkUrl : Network -> String
+networkUrl network =
+    case network of
+        Mainnet ->
+            "https://sui-mainnet.mystenlabs.com/graphql"
+
+        Testnet ->
+            "https://sui-testnet.mystenlabs.com/graphql"

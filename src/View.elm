@@ -21,7 +21,7 @@ import Types exposing (..)
 
 view : Model -> Html Msg
 view model =
-    [ navBar model.view
+    [ navBar model.view model.network
         |> el [ centerX ]
     , case model.view of
         ViewWalletObjects ->
@@ -286,18 +286,35 @@ formatTypename package =
         >> String.replace ">" "\n>"
 
 
-navBar : View -> Element Msg
-navBar currentView =
-    [ navButton "Wallet Objects" ViewWalletObjects currentView
-    , navButton "Package Definitions" ViewPackageDefinitions currentView
-    , navButton "Function" ViewFunction currentView
+navBar : View -> Network -> Element Msg
+navBar currentView currentNetwork =
+    [ [ navButton "Wallet Objects" ViewWalletObjects currentView
+      , navButton "Package Definitions" ViewPackageDefinitions currentView
+      , navButton "Function" ViewFunction currentView
+      ]
+        |> row [ spacing 20 ]
+    , networkToggle currentNetwork
     ]
         |> row
-            [ spacing 20
+            [ spacing 40
             , padding 15
             , Background.color (rgba 0 0 0 0.1)
             , width fill
             ]
+
+
+networkToggle : Network -> Element Msg
+networkToggle currentNetwork =
+    Input.radio
+        [ spacing 15 ]
+        { onChange = SetNetwork
+        , selected = Just currentNetwork
+        , label = Input.labelAbove [] (text "Network")
+        , options =
+            [ Input.option Mainnet (text "Mainnet")
+            , Input.option Testnet (text "Testnet")
+            ]
+        }
 
 
 navButton : String -> View -> View -> Element Msg

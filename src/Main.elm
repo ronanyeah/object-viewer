@@ -28,6 +28,7 @@ init _ =
       , package = Nothing
       , selectedFunction = Nothing
       , functionInputs = Dict.empty
+      , network = Mainnet
       }
     , Cmd.none
     )

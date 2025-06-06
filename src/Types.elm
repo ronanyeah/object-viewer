@@ -18,6 +18,7 @@ type alias Model =
     , selectedFunction : Maybe SelectedFunction
     , functionInputs : Dict String String
     , view : View
+    , network : Network
     }
 
 
@@ -42,6 +43,7 @@ type Msg
     | SelectFunction SelectedFunction
     | FunctionInputChange String String
     | FunctionExecute Ports.FunctionCall
+    | SetNetwork Network
     | ObjsCb
         String
         (Result
@@ -60,6 +62,11 @@ type View
     = ViewWalletObjects
     | ViewPackageDefinitions
     | ViewFunction
+
+
+type Network
+    = Mainnet
+    | Testnet
 
 
 type alias Obj =
