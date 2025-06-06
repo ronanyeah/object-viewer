@@ -6,7 +6,7 @@ import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
-import Helpers.View exposing (onKeydown, whenAttr)
+import Helpers.View exposing (onKeydown, whenAttr, whenJust)
 import Html exposing (Html)
 import Html.Attributes
 import List.Extra
@@ -21,6 +21,7 @@ import Types exposing (..)
 view : Model -> Html Msg
 view model =
     [ navBar model.view
+        |> el [ centerX ]
     , case model.view of
         ViewWalletObjects ->
             viewWalletObjects model
@@ -28,7 +29,7 @@ view model =
         ViewPackageDefinitions ->
             viewPackageDefinitions model
     ]
-        |> column []
+        |> column [ width fill, height fill ]
         |> Element.layoutWith
             { options =
                 [ Element.focusStyle
@@ -41,6 +42,7 @@ view model =
             [ width fill
             , height fill
             , Background.color bgColor
+            , Font.color black
             ]
 
 
@@ -234,18 +236,24 @@ viewPackageDefinitions model =
     , case model.package of
         Nothing ->
             text "Enter a package address to view definitions"
-                |> el [ centerX, centerY ]
+                |> el [ centerX ]
 
-        Just modules ->
+        Just ( packageId, modules ) ->
             modules
-                |> List.map viewModule
-                |> column [ spacing 20, scrollbarY, height (fill |> minimum 0) ]
+                |> List.map (viewModule packageId)
+                |> column
+                    [ spacing 20
+                    , width fill
+                    , scrollbarY
+                    , height (fill |> minimum 0)
+                    ]
     ]
         |> column
             [ height fill
             , spacing 30
             , centerX
             , padding 20
+            , width fill
             ]
 
 
@@ -307,11 +315,16 @@ navButton label targetView currentView =
             (attrs ++ [ padding 10, Border.rounded 5 ])
 
 
-viewModule : Module -> Element Msg
-viewModule mod =
+viewModule : String -> Module -> Element Msg
+viewModule packageId mod =
     [ text mod.name
         |> el [ Font.bold, Font.size 20 ]
-    , viewModuleContent mod
+    , [ viewStructs mod.structs
+      , viewEnums mod.enums
+      , viewFunctions packageId mod.functions
+      ]
+        |> List.filterMap identity
+        |> column [ spacing 15, width fill ]
     ]
         |> column
             [ spacing 15
@@ -321,16 +334,6 @@ viewModule mod =
             , Border.width 1
             , width fill
             ]
-
-
-viewModuleContent : Module -> Element Msg
-viewModuleContent mod =
-    [ viewStructs mod.structs
-    , viewEnums mod.enums
-    , viewFunctions mod.functions
-    ]
-        |> List.filterMap identity
-        |> column [ spacing 15 ]
 
 
 viewStructs : Maybe Structs -> Maybe (Element Msg)
@@ -385,33 +388,81 @@ viewEnum enum =
         |> column [ spacing 5, paddingXY 10 0 ]
 
 
-viewFunctions : Maybe Functions -> Maybe (Element Msg)
-viewFunctions maybeFunctions =
+viewFunctions : String -> Maybe Functions -> Maybe (Element Msg)
+viewFunctions packageId maybeFunctions =
     maybeFunctions
         |> Maybe.map
             (\functions ->
                 [ text "Functions"
                     |> el [ Font.bold, Font.size 16 ]
                 , functions.nodes
-                    |> List.map viewFunction
-                    |> column [ spacing 10 ]
+                    |> List.map (viewFunction packageId)
+                    |> column
+                        [ spacing 10
+                        , width fill
+                        , scrollbarX
+                        , paddingXY 0 20
+                        ]
                 ]
-                    |> column [ spacing 10 ]
+                    |> column [ spacing 10, width fill ]
             )
 
 
-viewFunction : LatestPackage_Modules_Module_Functions_Nodes -> Element Msg
-viewFunction function =
+viewFunction : String -> LatestPackage_Modules_Module_Functions_Nodes -> Element Msg
+viewFunction packageId function =
     [ text function.name
         |> el [ Font.semiBold ]
     , [ function.parameters
-            |> Maybe.map (List.map (.repr >> text) >> row [ spacing 5 ])
-            |> Maybe.withDefault none
-      , text " -> "
+            |> Maybe.map (List.map .repr)
+            |> whenJust
+                (\xs ->
+                    if List.isEmpty xs then
+                        text "()"
+
+                    else
+                        xs
+                            |> List.map
+                                (truncateTypeSig packageId)
+                            |> formatTuple
+                            |> text
+                )
       , function.return
-            |> Maybe.map (List.map (.repr >> text) >> row [ spacing 5 ])
-            |> Maybe.withDefault none
+            |> Maybe.andThen emptyListGuard
+            |> Maybe.map
+                (List.map
+                    (.repr
+                        >> truncateTypeSig packageId
+                    )
+                    >> formatTuple
+                    >> text
+                )
+            |> whenJust
+                (\xs ->
+                    [ text " -> ", xs ]
+                        |> row [ spacing 5 ]
+                )
       ]
         |> row [ spacing 5 ]
     ]
         |> column [ spacing 5, paddingXY 10 0 ]
+
+
+formatTuple : List String -> String
+formatTuple xs =
+    xs
+        |> String.join ", "
+        |> (\val -> "(" ++ val ++ ")")
+
+
+emptyListGuard xs =
+    if List.isEmpty xs then
+        Nothing
+
+    else
+        Just xs
+
+
+truncateTypeSig packageId =
+    String.replace "0x0000000000000000000000000000000000000000000000000000000000000002::" ""
+        >> String.replace "0x0000000000000000000000000000000000000000000000000000000000000001::" ""
+        >> String.replace (packageId ++ "::") ""

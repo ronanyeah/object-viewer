@@ -24,7 +24,7 @@ update msg model =
         FetchPackage addr ->
             ( model
             , fetchPackage addr
-                |> Task.attempt PackageCb
+                |> Task.attempt (PackageCb addr)
             )
 
         TogglePackage playerId ->
@@ -119,7 +119,7 @@ update msg model =
                                 )
                     )
 
-        PackageCb res ->
+        PackageCb packageId res ->
             res
                 |> unpack
                     (\_ ->
@@ -132,9 +132,13 @@ update msg model =
                             package =
                                 data.latestPackage
                                     |> Maybe.andThen .modules
-                                    |> Maybe.map .module_
+                                    |> Maybe.map (.module_ >> Tuple.pair packageId)
                         in
-                        ( { model | package = package }, Cmd.none )
+                        ( { model
+                            | package = package
+                          }
+                        , Cmd.none
+                        )
                     )
 
         FunctionExecute call ->

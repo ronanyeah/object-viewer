@@ -14,7 +14,7 @@ type alias Model =
     , addr : Maybe String
     , objects : Dict String (Dict String Obj)
     , visiblePackages : Set String
-    , package : Maybe (List Module)
+    , package : Maybe ( String, List Module )
     , view : View
     }
 
@@ -38,6 +38,7 @@ type Msg
             Queries.FetchOwnedObjects.Response
         )
     | PackageCb
+        String
         (Result
             GraphQL.Engine.Error
             Queries.FetchPackage.Response
