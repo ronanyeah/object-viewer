@@ -162,10 +162,18 @@ update msg model =
                         )
                     )
 
-        FunctionExecute call ->
-            ( model
-            , Ports.dryRunTx call
-            )
+        FunctionExecute ->
+            model.selectedFunction
+                |> unwrap ( model, Cmd.none )
+                    (\selectedFunc ->
+                        let
+                            call =
+                                buildFunctionCall selectedFunc model.functionInputs
+                        in
+                        ( model
+                        , Ports.dryRunTx call
+                        )
+                    )
 
 
 mergeDicts : Dict String (Dict String obj) -> Dict String (Dict String obj) -> Dict String (Dict String obj)
@@ -265,3 +273,23 @@ networkUrl network =
 
         Testnet ->
             "https://sui-testnet.mystenlabs.com/graphql"
+
+
+buildFunctionCall : SelectedFunction -> Dict.Dict String String -> Ports.FunctionCall
+buildFunctionCall selectedFunc inputs =
+    { functionPath = selectedFunc.packageId ++ "::" ++ selectedFunc.moduleName ++ "::" ++ selectedFunc.function.name
+    , arguments =
+        selectedFunc.function.parameters
+            |> Maybe.withDefault []
+            |> List.indexedMap
+                (\index param ->
+                    let
+                        paramName =
+                            "param_" ++ String.fromInt index
+
+                        value =
+                            Dict.get paramName inputs |> Maybe.withDefault ""
+                    in
+                    ( value, param.repr )
+                )
+    }

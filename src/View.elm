@@ -518,7 +518,7 @@ viewFunctionPage model =
                 |> column [ spacing 15 ]
             , viewFunctionInputs selectedFunc model.functionInputs
             , [ text "Execute Function"
-                    |> btn (Just (FunctionExecute (buildFunctionCall selectedFunc model.functionInputs)))
+                    |> btn (Just FunctionExecute)
                         [ Background.color (rgb 0.2 0.6 0.9)
                         , Font.color white
                         , padding 10
@@ -583,23 +583,3 @@ viewParameterInput packageId inputs index param =
         }
     ]
         |> column [ spacing 5 ]
-
-
-buildFunctionCall : SelectedFunction -> Dict.Dict String String -> Ports.FunctionCall
-buildFunctionCall selectedFunc inputs =
-    { functionPath = selectedFunc.packageId ++ "::" ++ selectedFunc.moduleName ++ "::" ++ selectedFunc.function.name
-    , arguments =
-        selectedFunc.function.parameters
-            |> Maybe.withDefault []
-            |> List.indexedMap
-                (\index param ->
-                    let
-                        paramName =
-                            "param_" ++ String.fromInt index
-
-                        value =
-                            Dict.get paramName inputs |> Maybe.withDefault ""
-                    in
-                    ( value, param.repr )
-                )
-    }

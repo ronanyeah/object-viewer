@@ -42,7 +42,7 @@ type Msg
     | FetchPackage String
     | SelectFunction SelectedFunction
     | FunctionInputChange String String
-    | FunctionExecute Ports.FunctionCall
+    | FunctionExecute
     | SetNetwork Network
     | ObjsCb
         String
