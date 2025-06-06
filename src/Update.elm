@@ -164,12 +164,12 @@ update msg model =
 
         FunctionExecute ->
             model.selectedFunction
-                |> unwrap ( model, Cmd.none )
+                |> Maybe.andThen
                     (\selectedFunc ->
-                        let
-                            call =
-                                buildFunctionCall selectedFunc model.functionInputs
-                        in
+                        buildFunctionCall selectedFunc model.functionInputs
+                    )
+                |> unwrap ( model, Cmd.none )
+                    (\call ->
                         ( model
                         , Ports.dryRunTx call
                         )
@@ -275,21 +275,31 @@ networkUrl network =
             "https://sui-testnet.mystenlabs.com/graphql"
 
 
-buildFunctionCall : SelectedFunction -> Dict.Dict String String -> Ports.FunctionCall
+buildFunctionCall : SelectedFunction -> Dict.Dict String String -> Maybe Ports.FunctionCall
 buildFunctionCall selectedFunc inputs =
-    { functionPath = selectedFunc.packageId ++ "::" ++ selectedFunc.moduleName ++ "::" ++ selectedFunc.function.name
-    , arguments =
-        selectedFunc.function.parameters
-            |> Maybe.withDefault []
-            |> List.indexedMap
-                (\index param ->
-                    let
-                        paramName =
-                            "param_" ++ String.fromInt index
-
-                        value =
-                            Dict.get paramName inputs |> Maybe.withDefault ""
-                    in
-                    ( value, param.repr )
-                )
-    }
+    selectedFunc.function.parameters
+        |> Maybe.andThen
+            (\params ->
+                params
+                    |> List.indexedMap
+                        (\index param ->
+                            let
+                                paramName =
+                                    "param_" ++ String.fromInt index
+                            in
+                            Dict.get paramName inputs
+                                |> Maybe.map (\value -> ( value, param.repr ))
+                        )
+                    |> Maybe.Extra.combine
+                    |> Maybe.map
+                        (\arguments ->
+                            { functionPath =
+                                selectedFunc.packageId
+                                    ++ "::"
+                                    ++ selectedFunc.moduleName
+                                    ++ "::"
+                                    ++ selectedFunc.function.name
+                            , arguments = arguments
+                            }
+                        )
+            )
