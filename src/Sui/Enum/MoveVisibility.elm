@@ -1,17 +1,12 @@
 module Sui.Enum.MoveVisibility exposing (MoveVisibility(..), all, decoder, encode)
 
-{-|
-
-This file wass generated using `elm-gql`
+{-| This file wass generated using `elm-gql`
 
 Please avoid modifying directly.
 
-
 @docs MoveVisibility, all, decoder, encode
 
-
 -}
-
 
 import Json.Decode
 import Json.Encode
@@ -32,18 +27,18 @@ decoder : Json.Decode.Decoder MoveVisibility
 decoder =
     Json.Decode.andThen
         (\andThenUnpack ->
-             case andThenUnpack of
-                 "PUBLIC" ->
-                     Json.Decode.succeed PUBLIC
+            case andThenUnpack of
+                "PUBLIC" ->
+                    Json.Decode.succeed PUBLIC
 
-                 "PRIVATE" ->
-                     Json.Decode.succeed PRIVATE
+                "PRIVATE" ->
+                    Json.Decode.succeed PRIVATE
 
-                 "FRIEND" ->
-                     Json.Decode.succeed FRIEND
+                "FRIEND" ->
+                    Json.Decode.succeed FRIEND
 
-                 _ ->
-                     Json.Decode.fail "Invalid type"
+                _ ->
+                    Json.Decode.fail "Invalid type"
         )
         Json.Decode.string
 

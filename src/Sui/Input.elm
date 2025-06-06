@@ -1,30 +1,10 @@
-module Sui.Input exposing
-    ( CheckpointId
-    , CheckpointId_
-    , DynamicFieldName
-    , DynamicFieldName_
-    , EventFilter
-    , EventFilter_
-    , MovePackageCheckpointFilter
-    , MovePackageCheckpointFilter_
-    , MovePackageVersionFilter
-    , MovePackageVersionFilter_
-    , ObjectFilter
-    , ObjectFilter_
-    , ObjectKey
-    , ObjectKey_
-    , ObjectRef
-    , ObjectRef_
-    , TransactionBlockFilter
-    , TransactionBlockFilter_
-    , TransactionMetadata
-    , TransactionMetadata_
-    )
+module Sui.Input exposing (CheckpointId, CheckpointId_, DynamicFieldName, DynamicFieldName_, EventFilter, EventFilter_, MovePackageCheckpointFilter, MovePackageCheckpointFilter_, MovePackageVersionFilter, MovePackageVersionFilter_, ObjectFilter, ObjectFilter_, ObjectKey, ObjectKey_, ObjectRef, ObjectRef_, TransactionBlockFilter, TransactionBlockFilter_, TransactionMetadata, TransactionMetadata_)
 
 {-|
-@docs CheckpointId, CheckpointId_, DynamicFieldName, DynamicFieldName_, EventFilter, EventFilter_, MovePackageCheckpointFilter, MovePackageCheckpointFilter_, MovePackageVersionFilter, MovePackageVersionFilter_, ObjectFilter, ObjectFilter_, ObjectKey, ObjectKey_, ObjectRef, ObjectRef_, TransactionBlockFilter, TransactionBlockFilter_, TransactionMetadata, TransactionMetadata_
--}
 
+@docs CheckpointId, CheckpointId_, DynamicFieldName, DynamicFieldName_, EventFilter, EventFilter_, MovePackageCheckpointFilter, MovePackageCheckpointFilter_, MovePackageVersionFilter, MovePackageVersionFilter_, ObjectFilter, ObjectFilter_, ObjectKey, ObjectKey_, ObjectRef, ObjectRef_, TransactionBlockFilter, TransactionBlockFilter_, TransactionMetadata, TransactionMetadata_
+
+-}
 
 import GraphQL.InputObject
 

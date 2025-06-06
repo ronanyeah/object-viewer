@@ -1,35 +1,27 @@
 module Sui.Input.TransactionBlockFilter exposing
-    ( TransactionBlockFilter
-    , affectedAddress
-    , affectedObject
-    , afterCheckpoint
-    , atCheckpoint
-    , beforeCheckpoint
-    , changedObject
-    , decoder
-    , function
-    , input
-    , inputObject
-    , kind
+    ( TransactionBlockFilter, input, decoder
     , null
-    , sentAddress
-    , transactionIds
+    , function, kind, afterCheckpoint, atCheckpoint, beforeCheckpoint, affectedAddress, affectedObject, sentAddress, inputObject, changedObject, transactionIds
     )
 
 {-|
+
+
 ## Creating an input
 
 @docs TransactionBlockFilter, input, decoder
+
 
 ## Null values
 
 @docs null
 
+
 ## Optional fields
 
 @docs function, kind, afterCheckpoint, atCheckpoint, beforeCheckpoint, affectedAddress, affectedObject, sentAddress, inputObject, changedObject, transactionIds
--}
 
+-}
 
 import Dict
 import GraphQL.InputObject
@@ -88,8 +80,7 @@ atCheckpoint newArg_ inputObj_ =
         inputObj_
 
 
-beforeCheckpoint :
-    Sui.Uint53 -> TransactionBlockFilter -> TransactionBlockFilter
+beforeCheckpoint : Sui.Uint53 -> TransactionBlockFilter -> TransactionBlockFilter
 beforeCheckpoint newArg_ inputObj_ =
     GraphQL.InputObject.addField
         "beforeCheckpoint"
@@ -98,8 +89,7 @@ beforeCheckpoint newArg_ inputObj_ =
         inputObj_
 
 
-affectedAddress :
-    Sui.SuiAddress -> TransactionBlockFilter -> TransactionBlockFilter
+affectedAddress : Sui.SuiAddress -> TransactionBlockFilter -> TransactionBlockFilter
 affectedAddress newArg_ inputObj_ =
     GraphQL.InputObject.addField
         "affectedAddress"
@@ -108,8 +98,7 @@ affectedAddress newArg_ inputObj_ =
         inputObj_
 
 
-affectedObject :
-    Sui.SuiAddress -> TransactionBlockFilter -> TransactionBlockFilter
+affectedObject : Sui.SuiAddress -> TransactionBlockFilter -> TransactionBlockFilter
 affectedObject newArg_ inputObj_ =
     GraphQL.InputObject.addField
         "affectedObject"
@@ -136,8 +125,7 @@ inputObject newArg_ inputObj_ =
         inputObj_
 
 
-changedObject :
-    Sui.SuiAddress -> TransactionBlockFilter -> TransactionBlockFilter
+changedObject : Sui.SuiAddress -> TransactionBlockFilter -> TransactionBlockFilter
 changedObject newArg_ inputObj_ =
     GraphQL.InputObject.addField
         "changedObject"
@@ -252,33 +240,34 @@ null =
 {-| This is a rarely needed function and it is unlikely that you will need this.
 
 It may be useful in edge cases where you need to do mocking/simulation of your queries within your app (tests shouldn't need this).
+
 -}
 decoder : Json.Decode.Decoder TransactionBlockFilter
 decoder =
     Json.Decode.map
         (\mapUnpack ->
-             GraphQL.InputObject.raw
-                 "TransactionBlockFilter"
-                 (List.map
-                      (\mapUnpack0 ->
-                           ( mapUnpack0.name
-                           , { gqlTypeName = mapUnpack0.type_
-                             , value = Dict.get mapUnpack0.name mapUnpack
-                             }
-                           )
-                      )
-                      [ { name = "function", type_ = "String" }
-                      , { name = "kind", type_ = "TransactionBlockKindInput" }
-                      , { name = "afterCheckpoint", type_ = "UInt53" }
-                      , { name = "atCheckpoint", type_ = "UInt53" }
-                      , { name = "beforeCheckpoint", type_ = "UInt53" }
-                      , { name = "affectedAddress", type_ = "SuiAddress" }
-                      , { name = "affectedObject", type_ = "SuiAddress" }
-                      , { name = "sentAddress", type_ = "SuiAddress" }
-                      , { name = "inputObject", type_ = "SuiAddress" }
-                      , { name = "changedObject", type_ = "SuiAddress" }
-                      , { name = "transactionIds", type_ = "[String!]" }
-                      ]
-                 )
+            GraphQL.InputObject.raw
+                "TransactionBlockFilter"
+                (List.map
+                    (\mapUnpack0 ->
+                        ( mapUnpack0.name
+                        , { gqlTypeName = mapUnpack0.type_
+                          , value = Dict.get mapUnpack0.name mapUnpack
+                          }
+                        )
+                    )
+                    [ { name = "function", type_ = "String" }
+                    , { name = "kind", type_ = "TransactionBlockKindInput" }
+                    , { name = "afterCheckpoint", type_ = "UInt53" }
+                    , { name = "atCheckpoint", type_ = "UInt53" }
+                    , { name = "beforeCheckpoint", type_ = "UInt53" }
+                    , { name = "affectedAddress", type_ = "SuiAddress" }
+                    , { name = "affectedObject", type_ = "SuiAddress" }
+                    , { name = "sentAddress", type_ = "SuiAddress" }
+                    , { name = "inputObject", type_ = "SuiAddress" }
+                    , { name = "changedObject", type_ = "SuiAddress" }
+                    , { name = "transactionIds", type_ = "[String!]" }
+                    ]
+                )
         )
         (Json.Decode.dict Json.Decode.value)

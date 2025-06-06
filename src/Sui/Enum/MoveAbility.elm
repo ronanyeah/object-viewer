@@ -1,17 +1,12 @@
 module Sui.Enum.MoveAbility exposing (MoveAbility(..), all, decoder, encode)
 
-{-|
-
-This file wass generated using `elm-gql`
+{-| This file wass generated using `elm-gql`
 
 Please avoid modifying directly.
 
-
 @docs MoveAbility, all, decoder, encode
 
-
 -}
-
 
 import Json.Decode
 import Json.Encode
@@ -33,21 +28,21 @@ decoder : Json.Decode.Decoder MoveAbility
 decoder =
     Json.Decode.andThen
         (\andThenUnpack ->
-             case andThenUnpack of
-                 "COPY" ->
-                     Json.Decode.succeed COPY
+            case andThenUnpack of
+                "COPY" ->
+                    Json.Decode.succeed COPY
 
-                 "DROP" ->
-                     Json.Decode.succeed DROP
+                "DROP" ->
+                    Json.Decode.succeed DROP
 
-                 "KEY" ->
-                     Json.Decode.succeed KEY
+                "KEY" ->
+                    Json.Decode.succeed KEY
 
-                 "STORE" ->
-                     Json.Decode.succeed STORE
+                "STORE" ->
+                    Json.Decode.succeed STORE
 
-                 _ ->
-                     Json.Decode.fail "Invalid type"
+                _ ->
+                    Json.Decode.fail "Invalid type"
         )
         Json.Decode.string
 

@@ -1,17 +1,12 @@
 module Sui.Enum.TransactionBlockKindInput exposing (TransactionBlockKindInput(..), all, decoder, encode)
 
-{-|
-
-This file wass generated using `elm-gql`
+{-| This file wass generated using `elm-gql`
 
 Please avoid modifying directly.
 
-
 @docs TransactionBlockKindInput, all, decoder, encode
 
-
 -}
-
 
 import Json.Decode
 import Json.Encode
@@ -31,15 +26,15 @@ decoder : Json.Decode.Decoder TransactionBlockKindInput
 decoder =
     Json.Decode.andThen
         (\andThenUnpack ->
-             case andThenUnpack of
-                 "SYSTEM_TX" ->
-                     Json.Decode.succeed SYSTEM_TX
+            case andThenUnpack of
+                "SYSTEM_TX" ->
+                    Json.Decode.succeed SYSTEM_TX
 
-                 "PROGRAMMABLE_TX" ->
-                     Json.Decode.succeed PROGRAMMABLE_TX
+                "PROGRAMMABLE_TX" ->
+                    Json.Decode.succeed PROGRAMMABLE_TX
 
-                 _ ->
-                     Json.Decode.fail "Invalid type"
+                _ ->
+                    Json.Decode.fail "Invalid type"
         )
         Json.Decode.string
 

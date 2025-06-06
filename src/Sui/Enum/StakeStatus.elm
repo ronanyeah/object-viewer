@@ -1,17 +1,12 @@
 module Sui.Enum.StakeStatus exposing (StakeStatus(..), all, decoder, encode)
 
-{-|
-
-This file wass generated using `elm-gql`
+{-| This file wass generated using `elm-gql`
 
 Please avoid modifying directly.
 
-
 @docs StakeStatus, all, decoder, encode
 
-
 -}
-
 
 import Json.Decode
 import Json.Encode
@@ -32,18 +27,18 @@ decoder : Json.Decode.Decoder StakeStatus
 decoder =
     Json.Decode.andThen
         (\andThenUnpack ->
-             case andThenUnpack of
-                 "ACTIVE" ->
-                     Json.Decode.succeed ACTIVE
+            case andThenUnpack of
+                "ACTIVE" ->
+                    Json.Decode.succeed ACTIVE
 
-                 "PENDING" ->
-                     Json.Decode.succeed PENDING
+                "PENDING" ->
+                    Json.Decode.succeed PENDING
 
-                 "UNSTAKED" ->
-                     Json.Decode.succeed UNSTAKED
+                "UNSTAKED" ->
+                    Json.Decode.succeed UNSTAKED
 
-                 _ ->
-                     Json.Decode.fail "Invalid type"
+                _ ->
+                    Json.Decode.fail "Invalid type"
         )
         Json.Decode.string
 

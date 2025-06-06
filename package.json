@@ -4,7 +4,7 @@
     "watch": "webpack serve",
     "fetch-schema": "gq https://sui-mainnet.mystenlabs.com/graphql --introspect --format json > ./src/Sui/schema.json",
     "gql-init": "elm-gql init ./src/Sui/schema.json --namespace Sui --output ./src",
-    "gen": "elm-gql run ./src/Sui/schema.json --output-all ./src --namespace Sui --queries ./graphql"
+    "gen": "elm-gql run ./src/Sui/schema.json --output-all ./src --namespace Sui --queries ./graphql && elm-format --yes src/Queries src/Sui"
   },
   "dependencies": {
     "@mysten/sui": "^1.30.2",

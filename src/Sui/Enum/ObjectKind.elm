@@ -1,17 +1,12 @@
 module Sui.Enum.ObjectKind exposing (ObjectKind(..), all, decoder, encode)
 
-{-|
-
-This file wass generated using `elm-gql`
+{-| This file wass generated using `elm-gql`
 
 Please avoid modifying directly.
 
-
 @docs ObjectKind, all, decoder, encode
 
-
 -}
-
 
 import Json.Decode
 import Json.Encode
@@ -31,15 +26,15 @@ decoder : Json.Decode.Decoder ObjectKind
 decoder =
     Json.Decode.andThen
         (\andThenUnpack ->
-             case andThenUnpack of
-                 "NOT_INDEXED" ->
-                     Json.Decode.succeed NOT_INDEXED
+            case andThenUnpack of
+                "NOT_INDEXED" ->
+                    Json.Decode.succeed NOT_INDEXED
 
-                 "INDEXED" ->
-                     Json.Decode.succeed INDEXED
+                "INDEXED" ->
+                    Json.Decode.succeed INDEXED
 
-                 _ ->
-                     Json.Decode.fail "Invalid type"
+                _ ->
+                    Json.Decode.fail "Invalid type"
         )
         Json.Decode.string
 

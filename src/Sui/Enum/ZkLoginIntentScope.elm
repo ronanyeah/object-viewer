@@ -1,17 +1,12 @@
 module Sui.Enum.ZkLoginIntentScope exposing (ZkLoginIntentScope(..), all, decoder, encode)
 
-{-|
-
-This file wass generated using `elm-gql`
+{-| This file wass generated using `elm-gql`
 
 Please avoid modifying directly.
 
-
 @docs ZkLoginIntentScope, all, decoder, encode
 
-
 -}
-
 
 import Json.Decode
 import Json.Encode
@@ -31,15 +26,15 @@ decoder : Json.Decode.Decoder ZkLoginIntentScope
 decoder =
     Json.Decode.andThen
         (\andThenUnpack ->
-             case andThenUnpack of
-                 "TRANSACTION_DATA" ->
-                     Json.Decode.succeed TRANSACTION_DATA
+            case andThenUnpack of
+                "TRANSACTION_DATA" ->
+                    Json.Decode.succeed TRANSACTION_DATA
 
-                 "PERSONAL_MESSAGE" ->
-                     Json.Decode.succeed PERSONAL_MESSAGE
+                "PERSONAL_MESSAGE" ->
+                    Json.Decode.succeed PERSONAL_MESSAGE
 
-                 _ ->
-                     Json.Decode.fail "Invalid type"
+                _ ->
+                    Json.Decode.fail "Invalid type"
         )
         Json.Decode.string
 
