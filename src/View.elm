@@ -17,6 +17,7 @@ import Set
 import Style exposing (..)
 import Sui.Enum.MoveAbility as MA
 import Types exposing (..)
+import Utils exposing (..)
 
 
 view : Model -> Html Msg
@@ -512,10 +513,14 @@ viewFunctionPage model =
                         [ Font.underline, hover ]
               ]
                 |> row [ spacing 10 ]
-            , [ text (selectedFunc.packageId ++ "::" ++ selectedFunc.moduleName ++ "::" ++ selectedFunc.function.name)
-                    |> el [ Font.bold, Font.size 24 ]
-              ]
-                |> column [ spacing 15 ]
+            , text
+                ((String.left 12 selectedFunc.packageId ++ "..." ++ String.right 12 selectedFunc.packageId)
+                    ++ "::"
+                    ++ selectedFunc.moduleName
+                    ++ "::"
+                    ++ selectedFunc.function.name
+                )
+                |> el [ Font.bold, Font.size 24 ]
             , viewFunctionInputs selectedFunc model.functionInputs
             , [ text "Execute Function"
                     |> btn (Just FunctionExecute)
@@ -552,6 +557,7 @@ viewFunctionInputs selectedFunc inputs =
                 [ text "Function Parameters"
                     |> el [ Font.bold, Font.size 18 ]
                 , params
+                    |> filterSystemParams
                     |> List.indexedMap (viewParameterInput selectedFunc.packageId inputs)
                     |> column [ spacing 15, width fill ]
                 ]

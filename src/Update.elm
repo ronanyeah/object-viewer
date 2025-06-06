@@ -13,6 +13,7 @@ import Set
 import Sui
 import Task
 import Types exposing (..)
+import Utils exposing (..)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -281,6 +282,7 @@ buildFunctionCall selectedFunc inputs =
         |> Maybe.andThen
             (\params ->
                 params
+                    |> filterSystemParams
                     |> List.indexedMap
                         (\index param ->
                             let
