@@ -24,6 +24,8 @@ init _ =
       , addr = Nothing
       , addrInput = ""
       , visiblePackages = Set.empty
+      , view = ViewWalletObjects
+      , package = Nothing
       }
     , Cmd.none
     )

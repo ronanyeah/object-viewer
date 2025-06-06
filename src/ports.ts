@@ -6,6 +6,7 @@ interface ElmApp {
 
 interface Ports {
   log: PortOut<string>;
+  dryRunTx: PortOut<FunctionCall>;
 }
 
 interface PortOut<T> {
@@ -20,6 +21,11 @@ type PortResult<E, T> =
     | { err: E; data: null }
     | { err: null; data: T };
 
+interface FunctionCall {
+  functionPath: string;
+  arguments: [string, string][];
+}
+
 function portOk<E, T>(data: T): PortResult<E, T> {
   return { data, err: null };
 }
@@ -28,4 +34,4 @@ function portErr<E, T>(err: E): PortResult<E, T> {
   return { data: null, err };
 }
 
-export { ElmApp, PortResult, portOk, portErr };
+export { ElmApp, PortResult, portOk, portErr, FunctionCall };

@@ -15,7 +15,6 @@ query {
     epoch
     epochs
     events
-    latestPackage
     multiGetObjects
     object
     objects
@@ -45,7 +44,6 @@ enum {
     DomainFormat
     ExecutionStatus
     Feature
-    MoveVisibility
     ObjectKind
     StakeStatus
     TransactionBlockKindInput
@@ -497,16 +495,11 @@ type MoveDatatypeEdge {
 }
 
 type MoveEnum {
-    abilities
     module
-    name
-    typeParameters
-    variants
 }
 
 type MoveEnumConnection {
     edges
-    nodes
     pageInfo
 }
 
@@ -515,29 +508,12 @@ type MoveEnumEdge {
     node
 }
 
-type MoveEnumVariant {
-    fields
-    name
-}
-
-type MoveField {
-    name
-    type
-}
-
 type MoveFunction {
-    isEntry
     module
-    name
-    parameters
-    return
-    typeParameters
-    visibility
 }
 
 type MoveFunctionConnection {
     edges
-    nodes
     pageInfo
 }
 
@@ -546,30 +522,20 @@ type MoveFunctionEdge {
     node
 }
 
-type MoveFunctionTypeParameter {
-    constraints
-}
-
 type MoveModule {
     bytes
     datatype
     datatypes
     disassembly
     enum
-    enums
     fileFormatVersion
-    friends
     function
-    functions
-    name
     package
     struct
-    structs
 }
 
 type MoveModuleConnection {
     edges
-    nodes
     pageInfo
 }
 
@@ -626,7 +592,6 @@ type MovePackage {
     linkage
     module
     moduleBcs
-    modules
     objects
     owner
     packageAtVersion
@@ -654,27 +619,17 @@ type MovePackageEdge {
 }
 
 type MoveStruct {
-    abilities
-    fields
     module
-    name
-    typeParameters
 }
 
 type MoveStructConnection {
     edges
-    nodes
     pageInfo
 }
 
 type MoveStructEdge {
     cursor
     node
-}
-
-type MoveStructTypeParameter {
-    constraints
-    isPhantom
 }
 
 type MoveType {
@@ -743,7 +698,6 @@ type ObjectEdge {
 }
 
 type OpenMoveType {
-    repr
     signature
 }
 

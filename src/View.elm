@@ -12,12 +12,41 @@ import Html.Attributes
 import List.Extra
 import Maybe.Extra exposing (unwrap)
 import Set
+import Style exposing (..)
 import Sui.Enum.MoveAbility as MA
 import Types exposing (..)
 
 
 view : Model -> Html Msg
 view model =
+    [ [-- nav bar
+      ]
+        |> row []
+    , case model.view of
+        ViewWalletObjects ->
+            viewWalletObjects model
+
+        ViewPackageDefinitions ->
+            viewPackageDefinitions model
+    ]
+        |> column []
+        |> Element.layoutWith
+            { options =
+                [ Element.focusStyle
+                    { borderColor = Nothing
+                    , backgroundColor = Nothing
+                    , shadow = Nothing
+                    }
+                ]
+            }
+            [ width fill
+            , height fill
+            , Background.color bgColor
+            ]
+
+
+viewWalletObjects : Model -> Element Msg
+viewWalletObjects model =
     model.addr
         |> unwrap
             (Input.text
@@ -137,19 +166,6 @@ view model =
                         , padding 20
                         ]
             )
-        |> Element.layoutWith
-            { options =
-                [ Element.focusStyle
-                    { borderColor = Nothing
-                    , backgroundColor = Nothing
-                    , shadow = Nothing
-                    }
-                ]
-            }
-            [ width fill
-            , height fill
-            , Background.color bgColor
-            ]
 
 
 viewObj : Obj -> Element msg
@@ -198,14 +214,9 @@ viewObj obj =
             ]
 
 
-bgColor : Color
-bgColor =
-    rgb255 170 180 190
-
-
-white : Color
-white =
-    rgb255 255 255 255
+viewPackageDefinitions : Model -> Element Msg
+viewPackageDefinitions model =
+    none
 
 
 linkOut : String -> List (Attribute msg) -> Element msg -> Element msg
@@ -215,16 +226,6 @@ linkOut url attrs elem =
         { url = url
         , label = elem
         }
-
-
-hover : Attribute msg
-hover =
-    Element.mouseOver [ fade ]
-
-
-fade : Element.Attr a b
-fade =
-    Element.alpha 0.7
 
 
 btn : Maybe msg -> List (Attribute msg) -> Element msg -> Element msg

@@ -18741,7 +18741,7 @@
             {
                 "kind": "INPUT_OBJECT",
                 "name": "TransactionMetadata",
-                "description": "The optional extra data a user can provide to a transaction dry run.\n`sender` defaults to `0x0`. If gasObjects` is not present, or is an empty list,\nit is substituted with a mock Coin object, `gasPrice` defaults to the reference\ngas price, `gasBudget` defaults to the max gas budget and `gasSponsor` defaults\nto the sender.",
+                "description": "The optional extra data a user can provide to a transaction dry run.\n`sender` defaults to `0x0`. If `gasObjects` is not present, or is an empty list,\nit is substituted with a mock Coin object, `gasPrice` defaults to the reference\ngas price, `gasBudget` defaults to the max gas budget and `gasSponsor` defaults\nto the sender.",
                 "fields": null,
                 "inputFields": [
                     {

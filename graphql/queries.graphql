@@ -18,3 +18,69 @@ query fetchOwnedObjects($address: SuiAddress!, $count: Int!, $cursor: String) {
     }
   }
 }
+
+query fetchPackage($address: SuiAddress!) {
+  latestPackage(address: $address) {
+    modules {
+      module: nodes {
+        name
+        friends {
+          nodes {
+            name
+          }
+        }
+        structs {
+          nodes {
+            name
+            abilities
+            typeParameters {
+              isPhantom
+              constraints
+            }
+            fields {
+              name
+              type {
+                repr
+              }
+            }
+          }
+        }
+        enums {
+          nodes {
+            name
+            abilities
+            typeParameters {
+              isPhantom
+              constraints
+            }
+            variants {
+              name
+              fields {
+                name
+                type {
+                  repr
+                }
+              }
+            }
+          }
+        }
+        functions {
+          nodes {
+            name
+            visibility
+            isEntry
+            typeParameters {
+              constraints
+            }
+            parameters {
+              repr
+            }
+            return {
+              repr
+            }
+          }
+        }
+      }
+    }
+  }
+}

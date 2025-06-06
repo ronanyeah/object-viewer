@@ -1,4 +1,4 @@
-module Update exposing (ping, update)
+module Update exposing (update)
 
 import Dict exposing (Dict)
 import GraphQL.Engine
@@ -7,6 +7,7 @@ import List.Extra
 import Maybe.Extra exposing (unwrap)
 import Ports
 import Queries.FetchOwnedObjects
+import Queries.FetchPackage
 import Result.Extra exposing (unpack)
 import Set
 import Sui
@@ -32,7 +33,7 @@ update msg model =
 
         AddrSubmit ->
             ( model
-            , ping model.addrInput Nothing
+            , fetchObjects model.addrInput Nothing
                 |> Task.attempt (ObjsCb model.addrInput)
             )
 
@@ -98,7 +99,7 @@ update msg model =
                                                 >> .pageInfo
                                                 >> (\page ->
                                                         if page.hasNextPage then
-                                                            ping addr page.endCursor
+                                                            fetchObjects addr page.endCursor
                                                                 |> Task.attempt (ObjsCb addr)
 
                                                         else
@@ -108,6 +109,29 @@ update msg model =
                                     )
                                 )
                     )
+
+        PackageCb res ->
+            res
+                |> unpack
+                    (\_ ->
+                        ( model
+                        , Ports.log "package error"
+                        )
+                    )
+                    (\data ->
+                        let
+                            package =
+                                data.latestPackage
+                                    |> Maybe.andThen .modules
+                                    |> Maybe.map .module_
+                        in
+                        ( { model | package = package }, Cmd.none )
+                    )
+
+        FunctionExecute call ->
+            ( model
+            , Ports.dryRunTx call
+            )
 
 
 mergeDicts : Dict String (Dict String obj) -> Dict String (Dict String obj) -> Dict String (Dict String obj)
@@ -167,8 +191,8 @@ parseObjs addr =
         |> Result.Extra.combine
 
 
-ping : String -> Maybe String -> Task.Task GraphQL.Engine.Error Queries.FetchOwnedObjects.Response
-ping addr cursor =
+fetchObjects : String -> Maybe String -> Task.Task GraphQL.Engine.Error Queries.FetchOwnedObjects.Response
+fetchObjects addr cursor =
     Sui.queryTask
         (Queries.FetchOwnedObjects.query
             { address = Sui.SuiAddress addr
@@ -182,5 +206,18 @@ ping addr cursor =
         )
         { headers = []
         , url = "https://sui-mainnet.mystenlabs.com/graphql"
+        , timeout = Nothing
+        }
+
+
+fetchPackage : String -> Task.Task GraphQL.Engine.Error Queries.FetchPackage.Response
+fetchPackage addr =
+    Sui.queryTask
+        (Queries.FetchPackage.query
+            { address = Sui.SuiAddress addr
+            }
+        )
+        { headers = []
+        , url = "https://sui-testnet.mystenlabs.com/graphql"
         , timeout = Nothing
         }
