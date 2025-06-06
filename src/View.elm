@@ -342,11 +342,13 @@ viewModule : String -> Module -> Element Msg
 viewModule packageId mod =
     [ text mod.name
         |> el [ Font.bold, Font.size 20 ]
-    , [ viewStructs mod.structs
-      , viewEnums mod.enums
-      , viewFunctions packageId mod.name mod.functions
+    , [ mod.structs
+            |> whenJust viewStructs
+      , mod.enums
+            |> whenJust viewEnums
+      , mod.functions
+            |> whenJust (viewFunctions packageId mod.name)
       ]
-        |> List.filterMap identity
         |> column [ spacing 15, width fill ]
     ]
         |> column
@@ -359,19 +361,15 @@ viewModule packageId mod =
             ]
 
 
-viewStructs : Maybe Structs -> Maybe (Element Msg)
-viewStructs maybeStructs =
-    maybeStructs
-        |> Maybe.map
-            (\structs ->
-                [ text "Structs"
-                    |> el [ Font.bold, Font.size 16 ]
-                , structs.nodes
-                    |> List.map viewStruct
-                    |> column [ spacing 10 ]
-                ]
-                    |> column [ spacing 10 ]
-            )
+viewStructs : Structs -> Element Msg
+viewStructs structs =
+    [ text "Structs"
+        |> el [ Font.bold, Font.size 16 ]
+    , structs.nodes
+        |> List.map viewStruct
+        |> column [ spacing 10 ]
+    ]
+        |> column [ spacing 10 ]
 
 
 viewStruct : Module_Nodes -> Element Msg
@@ -385,19 +383,15 @@ viewStruct struct =
         |> column [ spacing 5, paddingXY 10 0 ]
 
 
-viewEnums : Maybe Enums -> Maybe (Element Msg)
-viewEnums maybeEnums =
-    maybeEnums
-        |> Maybe.map
-            (\enums ->
-                [ text "Enums"
-                    |> el [ Font.bold, Font.size 16 ]
-                , enums.nodes
-                    |> List.map viewEnum
-                    |> column [ spacing 10 ]
-                ]
-                    |> column [ spacing 10 ]
-            )
+viewEnums : Enums -> Element Msg
+viewEnums enums =
+    [ text "Enums"
+        |> el [ Font.bold, Font.size 16 ]
+    , enums.nodes
+        |> List.map viewEnum
+        |> column [ spacing 10 ]
+    ]
+        |> column [ spacing 10 ]
 
 
 viewEnum : LatestPackage_Modules_Module_Enums_Nodes -> Element Msg
@@ -411,24 +405,20 @@ viewEnum enum =
         |> column [ spacing 5, paddingXY 10 0 ]
 
 
-viewFunctions : String -> String -> Maybe Functions -> Maybe (Element Msg)
-viewFunctions packageId moduleName maybeFunctions =
-    maybeFunctions
-        |> Maybe.map
-            (\functions ->
-                [ text "Functions"
-                    |> el [ Font.bold, Font.size 16 ]
-                , functions.nodes
-                    |> List.map (viewFunction packageId moduleName)
-                    |> column
-                        [ spacing 10
-                        , width fill
-                        , scrollbarX
-                        , paddingXY 0 20
-                        ]
-                ]
-                    |> column [ spacing 10, width fill ]
-            )
+viewFunctions : String -> String -> Functions -> Element Msg
+viewFunctions packageId moduleName functions =
+    [ text "Functions"
+        |> el [ Font.bold, Font.size 16 ]
+    , functions.nodes
+        |> List.map (viewFunction packageId moduleName)
+        |> column
+            [ spacing 10
+            , width fill
+            , scrollbarX
+            , paddingXY 0 20
+            ]
+    ]
+        |> column [ spacing 10, width fill ]
 
 
 viewFunction : String -> String -> LatestPackage_Modules_Module_Functions_Nodes -> Element Msg
