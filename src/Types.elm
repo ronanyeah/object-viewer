@@ -29,6 +29,7 @@ type Msg
     | AddrSubmit
     | AddrClear
     | SetView View
+    | FetchPackage String
     | FunctionExecute Ports.FunctionCall
     | ObjsCb
         String

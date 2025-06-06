@@ -11,6 +11,7 @@ import Html exposing (Html)
 import Html.Attributes
 import List.Extra
 import Maybe.Extra exposing (unwrap)
+import Queries.FetchPackage exposing (Enums, Functions, LatestPackage_Modules_Module_Enums_Nodes, LatestPackage_Modules_Module_Functions_Nodes, Module, Module_Nodes, Structs)
 import Set
 import Style exposing (..)
 import Sui.Enum.MoveAbility as MA
@@ -214,7 +215,38 @@ viewObj obj =
 
 viewPackageDefinitions : Model -> Element Msg
 viewPackageDefinitions model =
-    none
+    [ Input.text
+        [ onKeydown "Enter" (FetchPackage model.addrInput)
+        , Html.Attributes.autofocus True
+            |> htmlAttribute
+        , width <| px 600
+        , Font.size 15
+        , centerX
+        ]
+        { label =
+            text "Provide package address:"
+                |> Input.labelAbove []
+        , onChange = AddrChg
+        , placeholder = Nothing
+        , text = model.addrInput
+        }
+        |> el [ padding 20, centerX ]
+    , case model.package of
+        Nothing ->
+            text "Enter a package address to view definitions"
+                |> el [ centerX, centerY ]
+
+        Just modules ->
+            modules
+                |> List.map viewModule
+                |> column [ spacing 20, scrollbarY, height (fill |> minimum 0) ]
+    ]
+        |> column
+            [ height fill
+            , spacing 30
+            , centerX
+            , padding 20
+            ]
 
 
 linkOut : String -> List (Attribute msg) -> Element msg -> Element msg
@@ -273,3 +305,113 @@ navButton label targetView currentView =
     text label
         |> btn (Just (SetView targetView))
             (attrs ++ [ padding 10, Border.rounded 5 ])
+
+
+viewModule : Module -> Element Msg
+viewModule mod =
+    [ text mod.name
+        |> el [ Font.bold, Font.size 20 ]
+    , viewModuleContent mod
+    ]
+        |> column
+            [ spacing 15
+            , Background.color (rgba 255 255 255 0.4)
+            , padding 20
+            , Border.rounded 20
+            , Border.width 1
+            , width fill
+            ]
+
+
+viewModuleContent : Module -> Element Msg
+viewModuleContent mod =
+    [ viewStructs mod.structs
+    , viewEnums mod.enums
+    , viewFunctions mod.functions
+    ]
+        |> List.filterMap identity
+        |> column [ spacing 15 ]
+
+
+viewStructs : Maybe Structs -> Maybe (Element Msg)
+viewStructs maybeStructs =
+    maybeStructs
+        |> Maybe.map
+            (\structs ->
+                [ text "Structs"
+                    |> el [ Font.bold, Font.size 16 ]
+                , structs.nodes
+                    |> List.map viewStruct
+                    |> column [ spacing 10 ]
+                ]
+                    |> column [ spacing 10 ]
+            )
+
+
+viewStruct : Module_Nodes -> Element Msg
+viewStruct struct =
+    [ text struct.name
+        |> el [ Font.semiBold ]
+    , struct.fields
+        |> Maybe.map (List.map (.name >> text) >> column [ spacing 5 ])
+        |> Maybe.withDefault none
+    ]
+        |> column [ spacing 5, paddingXY 10 0 ]
+
+
+viewEnums : Maybe Enums -> Maybe (Element Msg)
+viewEnums maybeEnums =
+    maybeEnums
+        |> Maybe.map
+            (\enums ->
+                [ text "Enums"
+                    |> el [ Font.bold, Font.size 16 ]
+                , enums.nodes
+                    |> List.map viewEnum
+                    |> column [ spacing 10 ]
+                ]
+                    |> column [ spacing 10 ]
+            )
+
+
+viewEnum : LatestPackage_Modules_Module_Enums_Nodes -> Element Msg
+viewEnum enum =
+    [ text enum.name
+        |> el [ Font.semiBold ]
+    , enum.variants
+        |> Maybe.map (List.map (.name >> text) >> column [ spacing 5 ])
+        |> Maybe.withDefault none
+    ]
+        |> column [ spacing 5, paddingXY 10 0 ]
+
+
+viewFunctions : Maybe Functions -> Maybe (Element Msg)
+viewFunctions maybeFunctions =
+    maybeFunctions
+        |> Maybe.map
+            (\functions ->
+                [ text "Functions"
+                    |> el [ Font.bold, Font.size 16 ]
+                , functions.nodes
+                    |> List.map viewFunction
+                    |> column [ spacing 10 ]
+                ]
+                    |> column [ spacing 10 ]
+            )
+
+
+viewFunction : LatestPackage_Modules_Module_Functions_Nodes -> Element Msg
+viewFunction function =
+    [ text function.name
+        |> el [ Font.semiBold ]
+    , [ function.parameters
+            |> Maybe.map (List.map (.repr >> text) >> row [ spacing 5 ])
+            |> Maybe.withDefault none
+      , text " -> "
+      , function.return
+            |> Maybe.map (List.map (.repr >> text) >> row [ spacing 5 ])
+            |> Maybe.withDefault none
+      ]
+        |> row [ spacing 5 ]
+    ]
+        |> column [ spacing 5, paddingXY 10 0 ]

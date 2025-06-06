@@ -21,6 +21,12 @@ update msg model =
         SetView view ->
             ( { model | view = view }, Cmd.none )
 
+        FetchPackage addr ->
+            ( model
+            , fetchPackage addr
+                |> Task.attempt PackageCb
+            )
+
         TogglePackage playerId ->
             let
                 xs =
