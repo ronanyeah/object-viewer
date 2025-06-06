@@ -30,7 +30,7 @@ app.ports.dryRunTx.subscribe((params) =>
     });
     const res = await client.devInspectTransactionBlock({
       transactionBlock: tx,
-      sender: "0x0",
+      sender: params.packageId,
     });
     console.log(res);
   })().catch(console.error)

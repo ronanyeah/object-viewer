@@ -302,6 +302,7 @@ buildFunctionCall selectedFunc inputs =
                                     ++ "::"
                                     ++ selectedFunc.function.name
                             , arguments = arguments
+                            , packageId = selectedFunc.packageId
                             }
                         )
             )
