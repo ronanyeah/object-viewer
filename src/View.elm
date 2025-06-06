@@ -19,9 +19,7 @@ import Types exposing (..)
 
 view : Model -> Html Msg
 view model =
-    [ [-- nav bar
-      ]
-        |> row []
+    [ navBar model.view
     , case model.view of
         ViewWalletObjects ->
             viewWalletObjects model
@@ -242,3 +240,36 @@ formatTypename package =
     String.replace (package ++ "::") ""
         >> String.replace "<" "<\n"
         >> String.replace ">" "\n>"
+
+
+navBar : View -> Element Msg
+navBar currentView =
+    [ navButton "Wallet Objects" ViewWalletObjects currentView
+    , navButton "Package Definitions" ViewPackageDefinitions currentView
+    ]
+        |> row
+            [ spacing 20
+            , padding 15
+            , Background.color (rgba 0 0 0 0.1)
+            , width fill
+            ]
+
+
+navButton : String -> View -> View -> Element Msg
+navButton label targetView currentView =
+    let
+        isActive =
+            targetView == currentView
+
+        attrs =
+            if isActive then
+                [ Background.color (rgba 0 0 0 0.2)
+                , Font.bold
+                ]
+
+            else
+                [ hover ]
+    in
+    text label
+        |> btn (Just (SetView targetView))
+            (attrs ++ [ padding 10, Border.rounded 5 ])

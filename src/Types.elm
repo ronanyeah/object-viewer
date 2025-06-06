@@ -28,6 +28,7 @@ type Msg
     | TogglePackage String
     | AddrSubmit
     | AddrClear
+    | SetView View
     | FunctionExecute Ports.FunctionCall
     | ObjsCb
         String
