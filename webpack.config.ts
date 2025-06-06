@@ -1,10 +1,14 @@
-const { resolve } = require("path");
-const webpack = require("webpack");
+import webpack from "webpack";
+import { WebpackRunOptions } from "webpack-cli";
+import { resolve } from "path";
 
 const publicFolder = resolve("./public");
 
-module.exports = (env) => {
-  const devMode = Boolean(env.WEBPACK_SERVE);
+module.exports = (
+  _env: {},
+  options: WebpackRunOptions
+): webpack.Configuration => {
+  const devMode = Boolean(options.env.WEBPACK_SERVE);
 
   const loaderConfig = {
     loader: "elm-webpack-loader",
