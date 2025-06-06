@@ -21,6 +21,7 @@ export type PureArg =
   | null
   | TransactionArgument
   | Array<PureArg>;
+
 export type GenericArg =
   | TransactionObjectInput
   | PureArg

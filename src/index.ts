@@ -1,6 +1,7 @@
 import "./index.css";
 import { ElmApp } from "./ports";
-import { pure } from "./sui_types";
+import { pure } from "./sui_types/util";
+import * as reified from "./sui_types/reified";
 
 import { Transaction } from "@mysten/sui/transactions";
 import { SuiClient, SuiHTTPTransport } from "@mysten/sui/client";
@@ -32,6 +33,16 @@ app.ports.dryRunTx.subscribe((params) =>
       transactionBlock: tx,
       sender: params.packageId,
     });
-    console.log(res);
+    console.log(res.effects.status);
+    if (res.error) {
+      return console.log(res.error);
+    }
+    const data = (res.results || []).flatMap((x) => x.returnValues || []);
+    console.log("returnValues:", data);
+    for (const [bytes, tag] of data) {
+      const decoder = reified.toBcs(tag as any);
+      const unit = decoder.parse(new Uint8Array(bytes));
+      console.log(tag, unit);
+    }
   })().catch(console.error)
 );
