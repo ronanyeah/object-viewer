@@ -27,6 +27,22 @@ update msg model =
                 |> Task.attempt (PackageCb addr)
             )
 
+        SelectFunction selectedFunction ->
+            ( { model
+                | selectedFunction = Just selectedFunction
+                , functionInputs = Dict.empty
+                , view = ViewFunction
+              }
+            , Cmd.none
+            )
+
+        FunctionInputChange paramName value ->
+            ( { model
+                | functionInputs = Dict.insert paramName value model.functionInputs
+              }
+            , Cmd.none
+            )
+
         TogglePackage playerId ->
             let
                 xs =
@@ -136,6 +152,8 @@ update msg model =
                         in
                         ( { model
                             | package = package
+                            , selectedFunction = Nothing
+                            , functionInputs = Dict.empty
                           }
                         , Cmd.none
                         )

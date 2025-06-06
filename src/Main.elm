@@ -26,6 +26,8 @@ init _ =
       , visiblePackages = Set.empty
       , view = ViewWalletObjects
       , package = Nothing
+      , selectedFunction = Nothing
+      , functionInputs = Dict.empty
       }
     , Cmd.none
     )

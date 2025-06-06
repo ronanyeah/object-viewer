@@ -4,7 +4,7 @@ import Dict exposing (Dict)
 import GraphQL.Engine
 import Ports
 import Queries.FetchOwnedObjects
-import Queries.FetchPackage exposing (Module)
+import Queries.FetchPackage exposing (LatestPackage_Modules_Module_Functions_Nodes, Module)
 import Set exposing (Set)
 import Sui.Enum.MoveAbility
 
@@ -15,7 +15,16 @@ type alias Model =
     , objects : Dict String (Dict String Obj)
     , visiblePackages : Set String
     , package : Maybe ( String, List Module )
+    , selectedFunction : Maybe SelectedFunction
+    , functionInputs : Dict String String
     , view : View
+    }
+
+
+type alias SelectedFunction =
+    { packageId : String
+    , moduleName : String
+    , function : LatestPackage_Modules_Module_Functions_Nodes
     }
 
 
@@ -30,6 +39,8 @@ type Msg
     | AddrClear
     | SetView View
     | FetchPackage String
+    | SelectFunction SelectedFunction
+    | FunctionInputChange String String
     | FunctionExecute Ports.FunctionCall
     | ObjsCb
         String
@@ -48,6 +59,7 @@ type Msg
 type View
     = ViewWalletObjects
     | ViewPackageDefinitions
+    | ViewFunction
 
 
 type alias Obj =
